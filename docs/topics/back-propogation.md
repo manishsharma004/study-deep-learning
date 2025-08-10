@@ -39,6 +39,70 @@ These symbols and equations are standard in scientific literature and align with
 
 ## Mathematical Foundation
 
+### Forward Pass Equations
+
+The forward pass computes the output of the neural network layer by layer:
+
+1. **Hidden Layer Computation**:
+   \[ z^{(1)} = X \cdot W^{(1)} + b^{(1)} \]
+   \[ a^{(1)} = \sigma(z^{(1)}) \]
+
+2. **Output Layer Computation**:
+   \[ z^{(2)} = a^{(1)} \cdot W^{(2)} + b^{(2)} \]
+   \[ a^{(2)} = \sigma(z^{(2)}) \]
+
+Where:
+- **\( X \)**: Input features (training data)
+- **\( W^{(1)} \)**: Weights connecting input to hidden layer
+- **\( b^{(1)} \)**: Biases for hidden layer
+- **\( z^{(1)} \)**: Weighted sum (pre-activation) for hidden layer
+- **\( a^{(1)} \)**: Activation output of hidden layer
+- **\( W^{(2)} \)**: Weights connecting hidden to output layer
+- **\( b^{(2)} \)**: Biases for output layer
+- **\( z^{(2)} \)**: Weighted sum (pre-activation) for output layer
+- **\( a^{(2)} \)**: Final output (predictions)
+- **\( \sigma \)**: Activation function (sigmoid in our example)
+
+### Loss Function
+
+For our classification problem, we use Mean Squared Error:
+\[ L = \frac{1}{m} \sum_{i=1}^{m} (y_i - a^{(2)}_i)^2 \]
+
+Where:
+- **\( m \)**: Number of training samples
+- **\( y_i \)**: True labels (one-hot encoded)
+- **\( a^{(2)}_i \)**: Predicted output
+
+### Backward Pass Equations
+
+The backward pass computes gradients using the chain rule:
+
+1. **Output Layer Gradients**:
+   \[ \delta^{(2)} = (a^{(2)} - y) \odot \sigma'(z^{(2)}) \]
+   \[ \frac{\partial L}{\partial W^{(2)}} = (a^{(1)})^T \cdot \delta^{(2)} \]
+   \[ \frac{\partial L}{\partial b^{(2)}} = \sum \delta^{(2)} \]
+
+2. **Hidden Layer Gradients**:
+   \[ \delta^{(1)} = (\delta^{(2)} \cdot (W^{(2)})^T) \odot \sigma'(z^{(1)}) \]
+   \[ \frac{\partial L}{\partial W^{(1)}} = X^T \cdot \delta^{(1)} \]
+   \[ \frac{\partial L}{\partial b^{(1)}} = \sum \delta^{(1)} \]
+
+Where:
+- **\( \delta^{(l)} \)**: Error terms for layer \( l \)
+- **\( \odot \)**: Element-wise multiplication (Hadamard product)
+- **\( \sigma'(z) \)**: Derivative of the activation function
+- **\( \sum \)**: Sum across all training samples
+
+### Weight Update Rule
+
+Using gradient descent:
+\[ W^{(l)}_{\text{new}} = W^{(l)}_{\text{old}} - \eta \frac{\partial L}{\partial W^{(l)}} \]
+\[ b^{(l)}_{\text{new}} = b^{(l)}_{\text{old}} - \eta \frac{\partial L}{\partial b^{(l)}} \]
+
+Where:
+- **\( \eta \)**: Learning rate
+- **\( l \)**: Layer index (1 for hidden layer, 2 for output layer)
+
 - **Chain Rule**: Backpropagation relies on the chain rule to compute gradients efficiently.
   \[ \frac{\partial L}{\partial w} = \frac{\partial L}{\partial z} * \frac{\partial z}{\partial w} \]
   where \( z \) is an intermediate variable.
