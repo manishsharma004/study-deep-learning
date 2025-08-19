@@ -63,9 +63,28 @@ PyTorch is an open-source deep learning framework widely used for research and p
    optimizer.step()
    ```
 
-## Tools and Resources
+   This example demonstrates a basic workflow in PyTorch, a popular deep learning framework:
 
-- [PyTorch Official Documentation](https://pytorch.org/docs/)
-- [PyTorch Tutorials](https://pytorch.org/tutorials/)
-- [PyTorch Examples](https://github.com/pytorch/examples)
-- [DeepLearning.AI PyTorch Specialization](https://www.deeplearning.ai/)
+   1. **Model Definition**:
+      - The `SimpleModel` class inherits from `torch.nn.Module`, which is the base class for all neural networks in PyTorch.
+      - Inside the model, a single fully connected (linear) layer is defined using `nn.Linear(10, 1)`. This means the model takes an input of size 10 and outputs a single value.
+      - The `forward` method defines how the input data flows through the model. In this case, it simply passes the input through the linear layer.
+
+   2. **Loss Function**:
+      - The loss function measures how far the model's predictions are from the actual target values. Here, `nn.MSELoss` is used, which calculates the Mean Squared Error (MSE) between predictions and targets. MSE is commonly used for regression tasks.
+
+   3. **Optimizer**:
+      - The optimizer updates the model's parameters to minimize the loss. `optim.SGD` is used here, which implements the Stochastic Gradient Descent algorithm. The learning rate (`lr=0.01`) controls the step size for each update.
+
+   4. **Dummy Data**:
+      - Random input data (`inputs`) and target values (`targets`) are generated using `torch.randn`. This is just for demonstration purposes; in a real scenario, you would use actual data.
+
+   5. **Training Step**:
+      - The training process involves the following steps:
+        - **Zero Gradients**: `optimizer.zero_grad()` clears the gradients from the previous step. This is necessary because PyTorch accumulates gradients by default.
+        - **Forward Pass**: `model(inputs)` computes the model's predictions for the input data.
+        - **Loss Computation**: `criterion(outputs, targets)` calculates the loss between the predictions and the actual targets.
+        - **Backward Pass**: `loss.backward()` computes the gradients of the loss with respect to the model's parameters.
+        - **Parameter Update**: `optimizer.step()` updates the model's parameters using the computed gradients.
+
+   This workflow is the foundation of training neural networks in PyTorch. By iterating over these steps with real data, the model learns to make better predictions over time.
